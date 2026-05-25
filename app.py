@@ -4,7 +4,14 @@ from typing import Dict, Tuple
 
 import streamlit as st
 import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+# Workaround for Streamlit file watcher inspecting torch.classes.
+torch.classes.__path__ = []
+
+# Import directly from the auto-model modules to avoid
+# a top-level transformers export issue in the deployed environment.
+from transformers.models.auto.modeling_auto import AutoModelForSequenceClassification
+from transformers.models.auto.tokenization_auto import AutoTokenizer
 
 
 # =========================================================
