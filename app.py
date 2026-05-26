@@ -18,7 +18,7 @@ from transformers.models.auto.tokenization_auto import AutoTokenizer
 # Page configuration
 # =========================================================
 st.set_page_config(
-    page_title="Xiaomi AIoT Product Intelligence and Customer Voice Analytics",
+    page_title="Xiaomi AIoT Product Intelligence - Customer Reviews Analytics",
     page_icon="📱",
     layout="centered",
 )
@@ -223,7 +223,7 @@ with st.sidebar:
 # =========================================================
 # Main page
 # =========================================================
-st.title("📱 Xiaomi AIoT Product Intelligence and Customer Voice Analytics")
+st.title("📱 Xiaomi AIoT Product Intelligence - Customer Reviews Analytics")
 
 st.write(
     "A customer review triage tool for Xiaomi customer service staff. "
@@ -242,7 +242,7 @@ st.markdown("### Enter Customer Review")
 
 review_text = st.text_area(
     label="Customer review:",
-    value=example_review,
+    value="",
     height=160,
     placeholder="Paste one English customer review here...",
 )
