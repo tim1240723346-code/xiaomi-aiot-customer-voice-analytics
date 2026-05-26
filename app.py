@@ -239,10 +239,6 @@ st.info(
 
 st.markdown("### Enter Customer Review")
 
-example_review = (
-    "The smart watch looks attractive, but the battery drains very quickly "
-    "and it often disconnects from my phone."
-)
 
 review_text = st.text_area(
     label="Customer review:",
@@ -284,19 +280,13 @@ if process_button:
                     label="Category",
                     value=result["category"],
                 )
-                st.caption(
-                    f"Confidence: {result['category_confidence']:.2%}"
-                )
 
             with result_col2:
                 st.metric(
                     label="Sentiment",
                     value=result["sentiment"],
                 )
-                st.caption(
-                    f"Confidence: {result['sentiment_confidence']:.2%}"
-                )
-
+                
             st.markdown("### Customer Service Decision")
 
             if result["sentiment"] == "Positive":
@@ -319,9 +309,6 @@ if process_button:
                 st.write(f"**Route To:** {result['route_to']}")
                 st.write(result["decision_message"])
 
-            st.caption(
-                f"Processing time: {result['runtime']:.2f} seconds"
-            )
 
         except Exception as error:
             st.error(
@@ -331,12 +318,3 @@ if process_button:
             )
             st.exception(error)
 
-
-# =========================================================
-# Footer
-# =========================================================
-st.markdown("---")
-st.caption(
-    "Model pipeline: Fine-tuned Product Category Classifier "
-    "+ Fine-tuned Sentiment Classifier."
-)
