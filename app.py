@@ -27,9 +27,8 @@ st.set_page_config(
 # =========================================================
 # Fine-tuned model IDs uploaded to Hugging Face
 # =========================================================
-CATEGORY_MODEL_ID = "TimAuuu/xiaomi-aiot-category-distilbart-finetuned"
-SENTIMENT_MODEL_ID = "TimAuuu/xiaomi-aiot-sentiment-bertweet-finetuned"
-
+CATEGORY_MODEL_ID = "hanlongyang/amazon-category-distilbart-finetuned"
+SENTIMENT_MODEL_ID = "hanlongyang/amazon-sentiment-bertweet-finetuned"
 MAX_LENGTH = 128
 
 
