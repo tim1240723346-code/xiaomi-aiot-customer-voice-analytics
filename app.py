@@ -27,8 +27,9 @@ st.set_page_config(
 # =========================================================
 # Fine-tuned model IDs uploaded to Hugging Face
 # =========================================================
-CATEGORY_MODEL_ID = "hanlongyang/amazon-category-distilbart-finetuned"
-SENTIMENT_MODEL_ID = "hanlongyang/amazon-sentiment-bertweet-finetuned"
+CATEGORY_MODEL_ID = "hanlongyang/xiaomi-category-distilbart-finetuned"
+SENTIMENT_MODEL_ID = "hanlongyang/xiaomi-sentiment-cardiffnlp-finetuned"
+
 MAX_LENGTH = 128
 
 
@@ -50,11 +51,14 @@ CATEGORY_TO_TEAM: Dict[str, str] = {
 # =========================================================
 def predict_category(review_text: str) -> Tuple[str, float]:
     """
-    Load the fine-tuned category model, predict one review,
-    and then release the model to reduce memory usage.
+    Predict product category using the fine-tuned DistilBART category model.
+    Tokenizer and model are loaded from the same fine-tuned Hugging Face repository.
     """
 
-    tokenizer = AutoTokenizer.from_pretrained(CATEGORY_MODEL_ID)
+    tokenizer = AutoTokenizer.from_pretrained(
+        CATEGORY_MODEL_ID,
+        use_fast=True,
+    )
 
     model = AutoModelForSequenceClassification.from_pretrained(
         CATEGORY_MODEL_ID,
@@ -77,7 +81,9 @@ def predict_category(review_text: str) -> Tuple[str, float]:
         predicted_id = int(torch.argmax(probabilities, dim=-1).item())
         confidence = float(probabilities[0][predicted_id].item())
 
-    category = model.config.id2label[predicted_id]
+    category = str(
+        model.config.id2label[predicted_id]
+    ).strip()
 
     del outputs
     del probabilities
@@ -91,11 +97,14 @@ def predict_category(review_text: str) -> Tuple[str, float]:
 
 def predict_sentiment(review_text: str) -> Tuple[str, float]:
     """
-    Load the fine-tuned sentiment model, predict one review,
-    and then release the model to reduce memory usage.
+    Predict sentiment using the fine-tuned CardiffNLP sentiment model.
+    Tokenizer and model are loaded from the same fine-tuned Hugging Face repository.
     """
 
-    tokenizer = AutoTokenizer.from_pretrained(SENTIMENT_MODEL_ID)
+    tokenizer = AutoTokenizer.from_pretrained(
+        SENTIMENT_MODEL_ID,
+        use_fast=True,
+    )
 
     model = AutoModelForSequenceClassification.from_pretrained(
         SENTIMENT_MODEL_ID,
@@ -118,7 +127,29 @@ def predict_sentiment(review_text: str) -> Tuple[str, float]:
         predicted_id = int(torch.argmax(probabilities, dim=-1).item())
         confidence = float(probabilities[0][predicted_id].item())
 
-    sentiment = model.config.id2label[predicted_id]
+    raw_sentiment = str(
+        model.config.id2label[predicted_id]
+    ).strip()
+
+    sentiment_mapping = {
+        "negative": "Negative",
+        "neutral": "Neutral",
+        "positive": "Positive",
+        "Negative": "Negative",
+        "Neutral": "Neutral",
+        "Positive": "Positive",
+        "LABEL_0": "Negative",
+        "LABEL_1": "Neutral",
+        "LABEL_2": "Positive",
+        "0": "Negative",
+        "1": "Neutral",
+        "2": "Positive",
+    }
+
+    sentiment = sentiment_mapping.get(
+        raw_sentiment,
+        raw_sentiment.capitalize(),
+    )
 
     del outputs
     del probabilities
@@ -128,7 +159,6 @@ def predict_sentiment(review_text: str) -> Tuple[str, float]:
     gc.collect()
 
     return sentiment, confidence
-
 
 def determine_action(category: str, sentiment: str) -> Tuple[str, str, str]:
     """
