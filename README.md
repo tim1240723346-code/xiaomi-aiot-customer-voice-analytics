@@ -32,8 +32,8 @@ Customer Review Text
 
 | Task | Hugging Face Model ID | Final Test Accuracy |
 |---|---|---:|
-| Product Category Classification | TimAuuu/xiaomi-aiot-category-distilbart-finetuned | 83.75% |
-| Sentiment Analysis | TimAuuu/xiaomi-aiot-sentiment-bertweet-finetuned | 76.00% |
+| Product Category Classification | hanlongyang/amazon-category-distilbart-finetuned | 83.50% |
+| Sentiment Analysis | hanlongyang/amazon-sentiment-bertweet-finetuned | 78.83% |
 
 ## Decision Rule
 
