@@ -1,9 +1,0 @@
-__pycache__/
-*.pyc
-.env
-.DS_Store
-.ipynb_checkpoints/
-.streamlit/secrets.toml
-*.zip
-xiaomi-aiot-category-distilbart-finetuned/
-xiaomi-aiot-sentiment-bertweet-finetuned/
