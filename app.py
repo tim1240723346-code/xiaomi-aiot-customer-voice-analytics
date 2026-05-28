@@ -269,42 +269,65 @@ if process_button:
             ):
                 result = process_review(cleaned_review)
 
-            st.markdown("---")
+                        st.markdown("---")
             st.markdown("## Processing Result")
 
-            result_col1, result_col2 = st.columns(2)
+            st.metric(
+                label="Category",
+                value=result["category"],
+            )
 
-            with result_col1:
-                st.metric(
-                    label="Category",
-                    value=result["category"],
-                )
+                        st.markdown("### Customer Service Decision")
 
-            with result_col2:
-                st.metric(
-                    label="Sentiment",
-                    value=result["sentiment"],
-                )
-                
-            st.markdown("### Customer Service Decision")
+            # Select banner colour according to sentiment result
+            if result["sentiment"] == "Positive":
+                banner_background = "#DFF3E6"
+                banner_text_colour = "#137333"
+
+            elif result["sentiment"] == "Neutral":
+                banner_background = "#FFF5D6"
+                banner_text_colour = "#8A5A00"
+
+            else:
+                banner_background = "#FDE2E1"
+                banner_text_colour = "#B42318"
+
+            # Display action decision with larger and bolder result text
+            st.markdown(
+                f"""
+                <div style="
+                    background-color: {banner_background};
+                    color: {banner_text_colour};
+                    padding: 18px 20px;
+                    border-radius: 8px;
+                    margin-bottom: 18px;
+                ">
+                    <span style="
+                        font-size: 16px;
+                        font-weight: 500;
+                    ">
+                        Action Required:
+                    </span>
+                    <span style="
+                        font-size: 24px;
+                        font-weight: 700;
+                        margin-left: 6px;
+                    ">
+                        {result["action_required"]} (Sentiment: {result["sentiment"]})
+                    </span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
             if result["sentiment"] == "Positive":
-                st.success(
-                    f"Action Required: {result['action_required']}"
-                )
                 st.write(result["decision_message"])
 
             elif result["sentiment"] == "Neutral":
-                st.warning(
-                    f"Action Required: {result['action_required']}"
-                )
                 st.write(f"**Route To:** {result['route_to']}")
                 st.write(result["decision_message"])
 
             else:
-                st.error(
-                    f"Action Required: {result['action_required']}"
-                )
                 st.write(f"**Route To:** {result['route_to']}")
                 st.write(result["decision_message"])
 
