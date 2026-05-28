@@ -6,3 +6,4 @@ accelerate
 sentencepiece
 safetensors
 emoji
+tokenizers
