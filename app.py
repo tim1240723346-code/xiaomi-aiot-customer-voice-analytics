@@ -269,7 +269,7 @@ if process_button:
             ):
                 result = process_review(cleaned_review)
 
-                        st.markdown("---")
+            st.markdown("---")
             st.markdown("## Processing Result")
 
             st.metric(
@@ -277,9 +277,9 @@ if process_button:
                 value=result["category"],
             )
 
-                        st.markdown("### Customer Service Decision")
+            st.markdown("### Customer Service Decision")
 
-            # Select banner colour according to sentiment result
+            # Select banner colours according to sentiment result
             if result["sentiment"] == "Positive":
                 banner_background = "#DFF3E6"
                 banner_text_colour = "#137333"
@@ -292,7 +292,7 @@ if process_button:
                 banner_background = "#FDE2E1"
                 banner_text_colour = "#B42318"
 
-            # Display action decision with larger and bolder result text
+            # Display action decision with larger and bolder sentiment result
             st.markdown(
                 f"""
                 <div style="
@@ -313,11 +313,11 @@ if process_button:
                         font-weight: 700;
                         margin-left: 6px;
                     ">
-                        {result["action_required"]} (Sentiment: {result["sentiment"]})
+                        {result['action_required']} (Sentiment: {result['sentiment']})
                     </span>
                 </div>
                 """,
-                unsafe_allow_html=True
+                unsafe_allow_html=True,
             )
 
             if result["sentiment"] == "Positive":
@@ -331,7 +331,6 @@ if process_button:
                 st.write(f"**Route To:** {result['route_to']}")
                 st.write(result["decision_message"])
 
-
         except Exception as error:
             st.error(
                 "The review could not be processed. "
@@ -339,4 +338,3 @@ if process_button:
                 "Hugging Face model repositories are publicly accessible."
             )
             st.exception(error)
-
