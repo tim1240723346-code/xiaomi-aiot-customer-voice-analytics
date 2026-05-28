@@ -57,7 +57,7 @@ def predict_category(review_text: str) -> Tuple[str, float]:
 
     tokenizer = AutoTokenizer.from_pretrained(
         CATEGORY_MODEL_ID,
-        use_fast=True,
+        use_fast=False,
     )
 
     model = AutoModelForSequenceClassification.from_pretrained(
