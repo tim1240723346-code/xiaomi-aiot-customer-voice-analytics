@@ -30,6 +30,8 @@ st.set_page_config(
 CATEGORY_MODEL_ID = "hanlongyang/xiaomi-category-distilbart-finetuned"
 SENTIMENT_MODEL_ID = "hanlongyang/xiaomi-sentiment-cardiffnlp-finetuned"
 
+CATEGORY_TOKENIZER_ID = "valhalla/distilbart-mnli-12-3"
+
 MAX_LENGTH = 128
 
 
@@ -57,7 +59,7 @@ def predict_category(review_text: str) -> Tuple[str, float]:
 
     tokenizer = AutoTokenizer.from_pretrained(
         CATEGORY_MODEL_ID,
-        use_fast=False,
+        use_fast=True,
     )
 
     model = AutoModelForSequenceClassification.from_pretrained(
